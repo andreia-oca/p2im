@@ -23,9 +23,20 @@ RUN wget "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc
 RUN tar xjf gcc-arm-none-eabi-10-2020-q4-major.tar.bz2
 ENV PATH=$PATH:/root/gcc-arm-none-eabi-10-2020-q4-major/bin/
 
-# Set these to stop AFL from complaining.
-ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
-ENV AFL_SKIP_CPUFREQ=1
+# If AFL is complaining one can either run the following commands 
+# on the *host* machine:
+#
+# su -
+# echo core >/proc/sys/kernel/core_pattern
+# cd /sys/devices/system/cpu
+# echo performance | tee cpu*/cpufreq/scaling_governor
+# exit
+#
+# Or can uncomment the following lines to ignore the 
+# errors/warnings. After changing this file recompile it
+# with `make build`.
+# ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+# ENV AFL_SKIP_CPUFREQ=1
 
 # Fuzz with AFL on a precompiled, real world firmware 
 # found in P2IM github repo (named "Console").

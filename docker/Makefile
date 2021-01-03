@@ -4,7 +4,7 @@ build:
 	docker image build -t p2im_img:${version} --build-arg VERSION=${version} .
 
 test: build
-	docker run --rm --name p2im p2im_img:${version}
+	docker run --rm --name p2im_temp p2im_img:${version}
 
 run: build
 	docker run -it --name p2im p2im_img:${version} /bin/bash
