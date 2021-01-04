@@ -13,7 +13,7 @@ RUN apt-get update && \
     libboost-all-dev libz3-dev cmake
 
 # Clone P2IM and it's submodules
-RUN git clone --recursive https://github.com/RiS3-Lab/p2im.git p2im
+RUN git clone --recursive https://github.com/andreia-oca/p2im.git p2im
 
 # Compile AFL
 RUN ["/bin/bash", "-c", "cd /root/p2im && make -C afl/"]
@@ -23,26 +23,17 @@ RUN wget "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc
 RUN tar xjf gcc-arm-none-eabi-10-2020-q4-major.tar.bz2
 ENV PATH=$PATH:/root/gcc-arm-none-eabi-10-2020-q4-major/bin/
 
-# If AFL is complaining one can either run the following commands 
-# on the *host* machine:
-#
-# su -
-# echo core >/proc/sys/kernel/core_pattern
-# cd /sys/devices/system/cpu
-# echo performance | tee cpu*/cpufreq/scaling_governor
-# exit
-#
-# Or can uncomment the following lines to ignore the 
-# errors/warnings. After changing this file recompile it
-# with `make build`.
+# Uncomment the following lines to ignore the 
+# errors/warnings about crashes and cpu clock frequency coming from AFL. 
+# After changing this file recompile it with `make build`.
 # ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
 # ENV AFL_SKIP_CPUFREQ=1
 
 # Fuzz with AFL on a precompiled, real world firmware 
-# found in P2IM github repo (named "Console").
+# found in P2IM github repo.
 ENV WORKING_DIR=/root/p2im/fuzzing/console/01
 RUN mkdir -p $WORKING_DIR
-COPY ./fuzz.cfg $WORKING_DIR/fuzz.cfg
+COPY ./fuzz_console.cfg $WORKING_DIR/fuzz.cfg
 RUN cp -r /root/p2im/fuzzing/templates/seeds/ $WORKING_DIR/inputs
 RUN cp /root/p2im/externals/p2im-real_firmware/binary/Console $WORKING_DIR/
 

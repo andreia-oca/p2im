@@ -1,5 +1,15 @@
 # Testing using `docker`
 
+**NOTE:** Run the following commands on the **host machine** to stop AFL from
+complaining:
+```
+su -
+echo core >/proc/sys/kernel/core_pattern
+# d /sys/devices/system/cpu
+echo performance | tee cpu*/cpufreq/scaling_governor
+exit
+```
+
 The `Dockerfile` provided builds an image with all the required dependencies to run P2IM.
 The `Dockerfile` can be found in the `docker/` folder.
 Inside the `docker/` folder the following files:
