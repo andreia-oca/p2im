@@ -5,7 +5,7 @@ complaining:
 ```
 su -
 echo core >/proc/sys/kernel/core_pattern
-# d /sys/devices/system/cpu
+cd /sys/devices/system/cpu
 echo performance | tee cpu*/cpufreq/scaling_governor
 exit
 ```
@@ -16,7 +16,7 @@ Inside the `docker/` folder the following files:
 
 * The `Dockerfile` that builds the image
 * A `Makefile` for convenience
-* A configuration file to run P2IM on a real-world firmware named "Console"
+* A configuration file to run P2IM on a real-world firmware
 
 To build the image navigate to the `docker/` directory and run `make`:
 ```

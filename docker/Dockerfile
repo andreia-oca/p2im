@@ -31,11 +31,11 @@ ENV PATH=$PATH:/root/gcc-arm-none-eabi-10-2020-q4-major/bin/
 
 # Fuzz with AFL on a precompiled, real world firmware 
 # found in P2IM github repo.
-ENV WORKING_DIR=/root/p2im/fuzzing/console/01
+ENV WORKING_DIR=/root/p2im/fuzzing/heat_press/01
 RUN mkdir -p $WORKING_DIR
-COPY ./fuzz_console.cfg $WORKING_DIR/fuzz.cfg
+RUN cp /root/p2im/fuzzing/configs/Heat_Press.cfg $WORKING_DIR/fuzz.cfg
 RUN cp -r /root/p2im/fuzzing/templates/seeds/ $WORKING_DIR/inputs
-RUN cp /root/p2im/externals/p2im-real_firmware/binary/Console $WORKING_DIR/
+RUN cp /root/p2im/externals/p2im-real_firmware/binary/Heat_Press $WORKING_DIR/
 
 # Run example test when container starts
 CMD /root/p2im/model_instantiation/fuzz.py -c $WORKING_DIR/fuzz.cfg
